@@ -2,10 +2,7 @@ package dao;
 
 import tables.Country;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,5 +27,14 @@ public class CountryDAO {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public void add(String countryName) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("insert into country (name) values (?)")) {
+            preparedStatement.setString(1, countryName);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

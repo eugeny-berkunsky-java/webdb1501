@@ -40,7 +40,9 @@ public class DataBaseServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        String countryName = request.getParameter("country_name");
+        countryDAO.add(countryName);
+        response.sendRedirect("countries");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

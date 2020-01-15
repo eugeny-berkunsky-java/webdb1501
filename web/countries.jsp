@@ -13,9 +13,10 @@
 </head>
 <body>
 <jsp:useBean id="countryBean" scope="request" class="beans.CountryBean"/>
-    <table>
+<table>
     <thead>
-    <th>id</th><th>name</th>
+    <th>id</th>
+    <th>name</th>
     </thead>
     <tbody>
     <c:forEach items="${countryBean.countries}" var="country">
@@ -26,5 +27,10 @@
     </c:forEach>
     </tbody>
 </table>
+<form action="countries" method="post">
+    <label for="country_name">Новая страна</label>
+    <input type="text" name="country_name" id="country_name">
+    <input type="submit" value="Add">
+</form>
 </body>
 </html>
