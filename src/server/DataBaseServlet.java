@@ -5,6 +5,8 @@ import dao.CountryDAO;
 import tables.Country;
 
 import javax.annotation.Resource;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +22,7 @@ import java.util.List;
 @WebServlet(name = "DataBaseServlet", urlPatterns = {"/countries"})
 public class DataBaseServlet extends HttpServlet {
 
-    @Resource(name = "jdbc/example")
+    //@Resource(name = "jdbc/example")
     DataSource ds;
 
     private CountryDAO countryDAO;
@@ -29,12 +31,16 @@ public class DataBaseServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         try {
+            InitialContext ctx = new InitialContext();
+            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/example");
             Connection connection = ds.getConnection();
             try(Statement statement = connection.createStatement()) {
                 statement.execute("set search_path to demo");
             }
             countryDAO = new CountryDAO(connection);
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException e) {
             e.printStackTrace();
         }
     }
